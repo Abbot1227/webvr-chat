@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+
+    <title>Basic Example — Networked-Aframe</title>
+    <meta name="description" content="Basic Example — Networked-Aframe" />
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/comms"></script>
+    <script src="/components"></script>
+    <script src="https://cdn.rawgit.com/mrturck/aframe-joystick/master/joystick.min.js"></script> <!-- This is for joystick -->
+  </head>
+
+  <body>
+    <a-scene>
+      <a-entity 
+        id="joystick" 
+        joystick 
+        vr-mode-ui="enabled: false"
+      ></a-entity> <!-- showing joystick to user -->
+      <a-box
+        static-body
+        id="ground"
+        scale="100 1 100"
+        position="0 -1 0"
+        color="#444444"
+        visible="true"
+      ></a-box>
+      <a-cylinder position="0 1 -2" color="red"></a-cylinder>
+      <a-camera id="camera" me position="0 0.5 0"><a-box></a-box></a-camera> <!-- id is added to be used in joystick.js -->
+      <a-assets>
+        <a-asset-item
+          id="cityModel"
+          src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"
+        ></a-asset-item>
+      </a-assets>
+      <a-entity
+        gltf-model="/models/cowboy/scene.gltf"
+        position="0 0 0"
+      ></a-entity>
+      <a-entity
+        static-body
+        gltf-model="#cityModel"
+        position="0 0 0 "
+      ></a-entity>
+      <a-box position="5 5 0" dynamic-body></a-box>
+    </a-scene>
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        console.log('loaded');
+        var isMobile = AFRAME.utils.device.isMobile();
+        var showJoystick = document.getElementById('joystick');
+        if (isMobile) {
+          console.log("Mobile");
+        }
+        else {
+          console.log("PC");
+          showJoystick.outerHTML = ""; // remove the joystick a-entity
+        }
+      });   
+    </script>
+  </body>
+</html>
